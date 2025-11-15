@@ -1,3 +1,5 @@
 cassandra-driver
 time_uuid
 pydgraph
+pymongo
+python-dateutil
