@@ -59,20 +59,22 @@ def Cassandra_Queries():
 def Mongodb_Queries():
     while True:
         print("\n--- QUERIES ---")
-        print("1. ")
-        print("2. ")
-        print("3. ")
-        print("4. ")
-        print("5. ")
-        print("6. ")
-        print("7. ")
-        print("8. ")
-        print("9. ")
-        print("10. ")
-        print("11. ")
-        print("12. ")
+        print("1. Register new IoT device")
+        print("2. Register new user")
+        print("3. Get general device information")
+        print("4. View administrative events history")
+        print("5. Add configuration version to device")
+        print("6. Consult current or previous configurations")
+        print("7. Generate general catalog of devices")
+        print("8. Users who manage devices by zone or type")
+        print("9. Consult metadata of IoT system")
+        print("10. Global text search")
+        print("11. Update device state active/inactive")
+        print("12. Global IoT system reports")
         print("13. Back to Main Menu")
+        
         choice = int(input("Enter your query choice: "))
+        
         if choice == 1:
             pass
         elif choice == 2:
@@ -86,6 +88,18 @@ def Mongodb_Queries():
         elif choice == 6:
             pass
         elif choice == 7:
+            pass
+        elif choice == 8:
+            pass
+        elif choice == 9:
+            pass
+        elif choice == 10:
+            pass
+        elif choice == 11:
+            pass
+        elif choice == 12:
+            pass
+        elif choice == 13:
             break
         else:
             print("Invalid option.")
