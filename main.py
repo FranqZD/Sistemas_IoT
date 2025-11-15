@@ -65,7 +65,7 @@ def Mongodb_Queries():
         print("4. View administrative events history")
         print("5. Add configuration version to device")
         print("6. Consult current or previous configurations")
-        print("7. Generate general catalog of devices")
+        print("7. Device catalog and advanced search (type, zone, category")
         print("8. Users who manage devices by zone or type")
         print("9. Consult metadata of IoT system")
         print("10. Global text search")
