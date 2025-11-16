@@ -107,19 +107,21 @@ def Mongodb_Queries():
 def Dgraph_Queries():
     while True:
         print("\n--- QUERIES ---")
-        print("1. ")
-        print("2. ")
-        print("3. ")
-        print("4. ")
-        print("5. ")
-        print("6. ")
-        print("7. ")
-        print("8. ")
-        print("9. ")
-        print("10. ")
-        print("11. ")
-        print("12. ")
+        print("1. Consult zone by name")
+        print("2. Consult cluster by name")
+        print("3. Consult installation by name")
+        print("4. Consult IoT device by name")
+        print("5. Consult devices within an installation")
+        print("6. Consult all installations associated with a cluster")
+        print("7. View complete hierarchy of a zone (Zone -> Cluster -> Installation -> IoT Device)")
+        print("8. Consult connections between IoT devices")
+        print("9. Consult total number of devices per cluster")
+        print("10. Consult total number of installations within a zone")
+        print("11. Consult IoT devices of a specific brand within a zone")
+        print("12. Consult all devices with status 'off' within a zone")
         print("13. Back to Main Menu")
+
+
         choice = int(input("Enter your query choice: "))
         if choice == 1:
             pass
