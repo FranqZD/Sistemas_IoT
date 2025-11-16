@@ -22,10 +22,7 @@ def init_mongo():
            
     client = MongoClient(MONGO_URI)
     db = client[MONGO_DB_NAME]
-        
     mModel.create_mongo_indexes(db)
-   
-        
     print("MongoDB conectado a la base de datos:", MONGO_DB_NAME)
     return db
 
