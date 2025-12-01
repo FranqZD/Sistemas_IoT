@@ -4,8 +4,9 @@ import populate
 
 from connect import init_mongo
 from Mongo import mModel
+from Dgraph import dModel
 
-session = connect.init_cassandra()
+# session = connect.init_cassandra()
 
 db = None
 
@@ -25,9 +26,9 @@ def print_menu():
         print(key, '--', mm_options[key])
 
 def Devices_Queries():
-    global db
-    if db is None:
-        db = init_mongo()
+    # global db
+    # if db is None:
+    #     db = init_mongo()
         
     while True:
         print("\n--- QUERIES ---")
@@ -83,7 +84,19 @@ def Devices_Queries():
 
         elif choice == 10:
             mModel.update_device_state(db)
-
+        
+        elif choice == 11:
+            dModel.get_place_of_device(connect.init_dgraph(), input("Device name: "))
+            
+        elif choice == 12:
+            dModel.get_inactive_devices_in_cluster(connect.init_dgraph(), input("Cluster name: "))
+            
+        elif choice == 13:
+            dModel.get_device_connections(connect.init_dgraph(), input("Device name: "))
+        elif choice == 14:
+            dModel.count_devices_in_cluster(connect.init_dgraph(), input("Cluster name: "))
+        elif choice == 15:
+            dModel.get_devices_by_brand_in_zone(connect.init_dgraph(), input("Zone name: "), input("Brand name: "))
         elif choice == 16:
             break
 
@@ -99,6 +112,7 @@ def Logs_Queries():
         print("3. Consult by service_name, severity level and time range for logs")
         print("4. Consult by service_name and time range for logs")
         print("5. Consult by device_alias, severity level and time range for logs")
+        print("6. Back to Main Menu")
         
         choice = int(input("Enter your query choice: "))
         
@@ -129,7 +143,7 @@ def Logs_Queries():
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_count_by_device_level(session, alias, level, start)
 
-        elif choice == 13:
+        elif choice == 6:
             break
         else:
             print("Invalid option.")
@@ -237,13 +251,17 @@ def Infrastructure_Queries():
         choice = int(input("Enter your query choice: "))
         
         if choice == 1:
-            pass
+            dModel.get_places_by_cluster(connect.init_dgraph(), input("Cluster name: "))
         elif choice == 2:
-            pass
+            dModel.get_places_related_to_zone(connect.init_dgraph(), input("Zone name: "))
         elif choice == 3:
-            pass
+            dModel.get_clusters_by_status_in_zone(connect.init_dgraph(), input("Zone name: "), input("Status: "))
+        elif choice == 4:
+            dModel.get_all_clusters_in_zone(connect.init_dgraph(), input("Zone name: "))
+        elif choice == 5:
+            dModel.get_places_by_type_in_cluster(connect.init_dgraph(), input("Cluster name: "), input("Place type: "))
         elif choice == 6:
-            break
+            dModel.get_zones_with_brand_devices(connect.init_dgraph(), input("Brand name: "))
         else:
             print("Invalid option.")
 
