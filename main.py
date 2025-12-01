@@ -8,30 +8,37 @@ def print_menu():
     mm_options = {
         1: "Create Schema",
         2: "Load Data",
-        3: "Cassandra",
-        4: "MongoDB",
-        5: "Dgraph",
-        6: "Exit"
+        3: "Devices",
+        4: "Logs",
+        5: "Alerts",
+        6: "Users",
+        7: "Metadata",
+        8: "Infrastructure",
+        9: "Exit"
     }
     for key in mm_options.keys():
         print(key, '--', mm_options[key])
 
-def Cassandra_Queries():
+def Devices_Queries():
     while True:
         print("\n--- QUERIES ---")
-        print("1. Consult by device_id and time range for sensor readings")
-        print("2. Consult by sensor type for sensor readings")
-        print("3. Consult by status and time range for sensor readings")
-        print("4. Consult by device_id and time range for logs")
-        print("5. Consult by severity level and time range for logs")
-        print("6. Consult by service_name, severity level and time range for logs")
-        print("7. Consult by service_name and time range for logs")
-        print("8. Consult by device_id, severity level and time range for logs")
-        print("9. Consult by device_id and time range for alerts")
-        print("10. Consult by metric_type and time range for alerts")
-        print("11. Consult by zone_id and time range for alerts")
-        print("12. Consult by metric_type, value condition and time range for alerts")
-        print("13. Back to Main Menu")
+        print("1. Consult by device_alias and time range for devices")
+        print("2. Consult by sensor type for devices")
+        print("3. Consult by status and time range for devices")
+        print("4. Register new IoT device")
+        print("5. Get general device information")
+        print("6. View administrative events history")
+        print("7. Add configuration version to device")
+        print("8. Consult current or previous configurations")
+        print("9. Device catalog and advanced search (type, zone, category")
+        print("10. Update device state active/inactive")
+        print("11. Find installation by device name")
+        print("12. List offline devices in a cluster")
+        print("13. Show connections for a specific device")
+        print("14. Count IoT devices in a cluster")
+        print("15. Filter IoT devices by brand and zone")
+        print("16. Back to Main Menu")
+
         choice = int(input("Enter your query choice: "))
         if choice == 1:
             alias = input("Device alias: ")
@@ -47,77 +54,145 @@ def Cassandra_Queries():
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_devices_by_status_time(session, status, start)
 
-        elif choice == 4:
+        elif choice == 16:
+            break
+
+        else:
+            print("Invalid option.")
+
+    
+def Logs_Queries():
+    while True:
+        print("\n--- QUERIES ---")
+        print("1. Consult by device_alias and time range for logs")
+        print("2. Consult by severity level and time range for logs")
+        print("3. Consult by service_name, severity level and time range for logs")
+        print("4. Consult by service_name and time range for logs")
+        print("5. Consult by device_alias, severity level and time range for logs")
+        
+        choice = int(input("Enter your query choice: "))
+        
+        if choice == 1:
             alias = input("Device alias: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_by_device_time(session, alias, start)
 
-        elif choice == 5:
+        elif choice == 2:
             level = input("Severity level: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_by_level(session, level, start)
 
-        elif choice == 6:
+        elif choice == 3:
             service = input("Service name: ")
             level = input("Severity level: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_by_service_level(session, service, level, start)
 
-        elif choice == 7:
+        elif choice == 4:
             service = input("Service name: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_by_service(session, service, start)
 
-        elif choice == 8:
+        elif choice == 5:
             alias = input("Device alias: ")
             level = input("Severity level: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_logs_count_by_device_level(session, alias, level, start)
 
-        elif choice == 9:
+        elif choice == 13:
+            break
+        else:
+            print("Invalid option.")
+            
+def Alerts_Queries():
+    while True:
+        print("\n--- QUERIES ---")
+        print("1. Consult by device_alias and time range for alerts")
+        print("2. Consult by metric_type and time range for alerts")
+        print("3. Consult by zone_alias and time range for alerts")
+        print("4. Consult by metric_type, value condition and time range for alerts")
+        print("5. Back to Main Menu")
+
+        choice = int(input("Enter your query choice: "))
+
+        if choice == 1:
             alias = input("Device alias: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_alerts_by_device_time(session, alias, start)
 
-        elif choice == 10:
+        elif choice == 2:
             metric = input("Metric type: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_alerts_by_metric_time(session, metric, start)
 
-        elif choice == 11:
+        elif choice == 3:
             zone = input("Zone alias: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_alerts_by_zone_time(session, zone, start)
 
-        elif choice == 12:
+        elif choice == 4:
             metric = input("Metric type: ")
             value = float(input("Value: "))
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_alerts_by_metric_value_time(session, metric, value, start)
 
-        elif choice == 13:
+        elif choice == 5:
             break
-
         else:
             print("Invalid option.")
 
-            
-def Mongodb_Queries():
+
+def Users_Queries():
     while True:
         print("\n--- QUERIES ---")
-        print("1. Register new IoT device")
-        print("2. Register new user")
-        print("3. Get general device information")
-        print("4. View administrative events history")
-        print("5. Add configuration version to device")
-        print("6. Consult current or previous configurations")
-        print("7. Device catalog and advanced search (type, zone, category")
-        print("8. Users who manage devices by zone or type")
-        print("9. Consult metadata of IoT system")
-        print("10. Global text search")
-        print("11. Update device state active/inactive")
-        print("12. Global IoT system reports")
-        print("13. Back to Main Menu")
+        print("1. Register new user")
+        print("2. Users who manage devices by zone or type")
+        print("3. Back to Main Menu")
+        
+        choice = int(input("Enter your query choice: "))
+        
+        if choice == 1:
+            pass
+
+        elif choice == 2:
+            pass
+
+        elif choice == 3:
+            break
+        else:
+            print("Invalid option.")
+
+def Metadata_Queries():
+    while True:
+        print("\n--- QUERIES ---")
+        print("1. Consult metadata of IoT system")
+        print("2. Global text search")
+        print("3. Global IoT system reports")
+        print("4. Back to Main Menu")
+        
+        choice = int(input("Enter your query choice: "))
+        
+        if choice == 1:
+            pass
+
+        elif choice == 2:
+            pass
+        elif choice == 3:
+            pass
+        elif choice == 4:
+            break
+        else:
+            print("Invalid option.")
+
+def Infrastructure_Queries():
+    while True:
+        print("\n--- QUERIES ---")
+        print("1. List all installations in a cluster")
+        print("2. Find installations in a specific zone")
+        print("3. Filter clusters in a zone by status")
+        print("4. List all clusters in a zone")
+        print("5. Show installations of a specific type in a cluster")
+        print("6. Find zones with devices of a specific brand")
         
         choice = int(input("Enter your query choice: "))
         
@@ -126,58 +201,8 @@ def Mongodb_Queries():
         elif choice == 2:
             pass
         elif choice == 3:
-            pass
-        elif choice == 4:
-            pass
-        elif choice == 5:
             pass
         elif choice == 6:
-            pass
-        elif choice == 7:
-            pass
-        elif choice == 8:
-            pass
-        elif choice == 9:
-            pass
-        elif choice == 10:
-            pass
-        elif choice == 11:
-            pass
-        elif choice == 12:
-            pass
-        elif choice == 13:
-            break
-        else:
-            print("Invalid option.")
-            
-def Dgraph_Queries():
-    while True:
-        print("\n--- QUERIES ---")
-        print("1. Consult zone by name")
-        print("2. Consult cluster by name")
-        print("3. Consult installation by name")
-        print("4. Consult IoT device by name")
-        print("5. Consult devices within an installation")
-        print("6. Consult all installations associated with a cluster")
-        print("7. View complete hierarchy of a zone (Zone -> Cluster -> Installation -> IoT Device)")
-        print("8. Consult connections between IoT devices")
-        print("9. Consult total number of devices per cluster")
-        print("10. Consult total number of installations within a zone")
-        print("11. Consult IoT devices of a specific brand within a zone")
-        print("12. Consult all devices with status 'off' within a zone")
-        print("13. Back to Main Menu")
-
-
-        choice = int(input("Enter your query choice: "))
-        if choice == 1:
-            pass
-        elif choice == 2:
-            pass
-        elif choice == 3:
-            pass
-        elif choice == 4:
-            pass
-        elif choice == 5:
             break
         else:
             print("Invalid option.")
@@ -191,18 +216,24 @@ def main():
                 pass
             if option == 2:
                 print("Loading data into Cassandra from CSVs...")
-                populate.populate_readings(session, "devicess.csv")
+                populate.populate_readings(session, "devices.csv")
                 populate.populate_logs(session, "./Cassandra/logs.csv")
                 populate.populate_alerts(session, "./Cassandra/alerts.csv")
                 print("Data loaded!")
 
             if option == 3:
-                Cassandra_Queries()
+                Devices_Queries()
             if option == 4:
-                Mongodb_Queries()
+                Logs_Queries()
             if option == 5:
-                Dgraph_Queries()
+                Alerts_Queries()
             if option == 6:
+                Users_Queries()
+            if option == 7:
+                Metadata_Queries()
+            if option == 8:
+                Infrastructure_Queries()
+            if option == 9:
                 exit(0)
 
 if __name__ == '__main__':
