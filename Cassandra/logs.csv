@@ -1,0 +1,6 @@
+device_id,device_alias,service_name,level,log_time,message,count
+DEV001,freezer_1,reader,INFO,2025-01-12,"Startup complete",1
+DEV001,freezer_1,reader,ERROR,2025-01-12,"Temperature sensor failed",2
+DEV002,pump_7,motor,WARN,2025-01-10,"Motor speed fluctuation",1
+DEV003,fridge_main,service,INFO,2025-01-14,"Door opened",1
+DEV004,ac_1,system,CRITICAL,2025-01-15,"Overheat detected",1

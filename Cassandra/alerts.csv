@@ -1,0 +1,5 @@
+device_id,device_alias,alert_time,metric_type,threshold_exceeded,zone_id,zone_alias,value
+DEV001,freezer_1,2025-01-12,temp,High Temp,Z01,Storage,82.5
+DEV002,pump_7,2025-01-15,pressure,Low Pressure,Z02,Basement,15.8
+DEV003,fridge_main,2025-01-18,temp,High Temp,Z03,Kitchen,79.1
+DEV004,ac_1,2025-01-20,humidity,High Humidity,Z04,Office,88.0

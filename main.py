@@ -1,3 +1,9 @@
+import connect
+from Cassandra import cModel
+import populate
+
+session = connect.init_cassandra()
+
 def print_menu():
     mm_options = {
         1: "Create Schema",
@@ -28,33 +34,73 @@ def Cassandra_Queries():
         print("13. Back to Main Menu")
         choice = int(input("Enter your query choice: "))
         if choice == 1:
-            pass
+            alias = input("Device alias: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_readings_by_device(session, alias, start)
+
         elif choice == 2:
-            pass
+            sensor_type = input("Sensor type: ")
+            cModel.get_devices_by_type(session, sensor_type)
+
         elif choice == 3:
-            pass
+            status = input("Status: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_devices_by_status_time(session, status, start)
+
         elif choice == 4:
-            pass
+            alias = input("Device alias: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_logs_by_device_time(session, alias, start)
+
         elif choice == 5:
-            pass
+            level = input("Severity level: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_logs_by_level(session, level, start)
+
         elif choice == 6:
-            pass
+            service = input("Service name: ")
+            level = input("Severity level: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_logs_by_service_level(session, service, level, start)
+
         elif choice == 7:
-            pass
+            service = input("Service name: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_logs_by_service(session, service, start)
+
         elif choice == 8:
-            pass
+            alias = input("Device alias: ")
+            level = input("Severity level: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_logs_count_by_device_level(session, alias, level, start)
+
         elif choice == 9:
-            pass
+            alias = input("Device alias: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_alerts_by_device_time(session, alias, start)
+
         elif choice == 10:
-            pass
+            metric = input("Metric type: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_alerts_by_metric_time(session, metric, start)
+
         elif choice == 11:
-            pass
+            zone = input("Zone alias: ")
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_alerts_by_zone_time(session, zone, start)
+
         elif choice == 12:
-            pass
+            metric = input("Metric type: ")
+            value = float(input("Value: "))
+            start = input("Start date (YYYY-MM-DD): ")
+            cModel.get_alerts_by_metric_value_time(session, metric, value, start)
+
         elif choice == 13:
             break
+
         else:
             print("Invalid option.")
+
             
 def Mongodb_Queries():
     while True:
@@ -144,7 +190,12 @@ def main():
             if option == 1:
                 pass
             if option == 2:
-                pass
+                print("Loading data into Cassandra from CSVs...")
+                populate.populate_readings(session, "devicess.csv")
+                populate.populate_logs(session, "./Cassandra/logs.csv")
+                populate.populate_alerts(session, "./Cassandra/alerts.csv")
+                print("Data loaded!")
+
             if option == 3:
                 Cassandra_Queries()
             if option == 4:
@@ -153,3 +204,6 @@ def main():
                 Dgraph_Queries()
             if option == 6:
                 exit(0)
+
+if __name__ == '__main__':
+    main()

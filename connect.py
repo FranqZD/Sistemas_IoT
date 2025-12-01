@@ -1,15 +1,16 @@
 import pydgraph
+import time
 from cassandra.cluster import Cluster
 from pymongo import MongoClient
 
 
-from Cassandra.cModel import model as cModel
-from Dgraph.dModel import model as dModel
-from Mongo.mModel import model as mModel
+from Cassandra import cModel
+from Dgraph import dModel
+from Mongo import mModel
  
 #Cassandra data
 CLUSTER_IPS = ['127.0.0.1']
-KEYSPACE = 'IotSystem'
+KEYSPACE = 'iotsystem'
 REPLICATION_FACTOR = 1
 
 
