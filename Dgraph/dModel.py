@@ -1,6 +1,5 @@
 import pydgraph
 import json
-import csv
 def create_Schema(client):
     schema = """
 name: string @index(exact) .

@@ -7,7 +7,7 @@ from connect import init_mongo
 from Mongo import mModel
 from Dgraph import dModel
 
-# session = connect.init_cassandra()
+session = connect.init_cassandra()
 
 db = None
 clientD = connect.init_dgraph()
@@ -28,9 +28,9 @@ def print_menu():
         print(key, '--', mm_options[key])
 
 def Devices_Queries():
-    # global db
-    # if db is None:
-    #     db = init_mongo()
+    global db
+    if db is None:
+        db = init_mongo()
         
     while True:
         print("\n--- QUERIES ---")
@@ -278,16 +278,16 @@ def main():
                 dModel.create_Schema(clientD)
                 pass
             if option == 2:
-                # print("Loading data into Cassandra from CSVs...")
-                # populate.populate_readings(session, "devices.csv")
-                # populate.populate_logs(session, "./Cassandra/logs.csv")
-                # populate.populate_alerts(session, "./Cassandra/alerts.csv")
+                print("Loading data into Cassandra from CSVs...")
+                populate.populate_readings(session, "devices.csv")
+                populate.populate_logs(session, "./Cassandra/logs.csv")
+                populate.populate_alerts(session, "./Cassandra/alerts.csv")
                 print("Loading data into Dgraph from CSVs...")
                 populateD.load_data(clientD)
                 
-                # db = init_mongo()
-                # print("Loading data into MongoDB from CSVs...")
-                # populate.load_mongo(db)
+                db = init_mongo()
+                print("Loading data into MongoDB from CSVs...")
+                populate.load_mongo(db)
                 
                 print("Data loaded!")
 
