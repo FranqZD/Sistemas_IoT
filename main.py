@@ -2,7 +2,12 @@ import connect
 from Cassandra import cModel
 import populate
 
+from connect import init_mongo
+from Mongo import mModel
+
 session = connect.init_cassandra()
+
+db = None
 
 def print_menu():
     mm_options = {
@@ -20,6 +25,10 @@ def print_menu():
         print(key, '--', mm_options[key])
 
 def Devices_Queries():
+    global db
+    if db is None:
+        db = init_mongo()
+        
     while True:
         print("\n--- QUERIES ---")
         print("1. Consult by device_alias and time range for devices")
@@ -53,6 +62,27 @@ def Devices_Queries():
             status = input("Status: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_devices_by_status_time(session, status, start)
+            
+        elif choice == 4:
+            mModel.register_device(db)
+
+        elif choice == 5:
+            mModel.get_general_device_info(db)
+
+        elif choice == 6:
+            mModel.view_admin_events(db)
+
+        elif choice == 7:
+            mModel.add_configuration_version(db)
+
+        elif choice == 8:
+            mModel.get_configurations(db)
+
+        elif choice == 9:
+            mModel.advanced_device_search(db)
+
+        elif choice == 10:
+            mModel.update_device_state(db)
 
         elif choice == 16:
             break
@@ -143,6 +173,10 @@ def Alerts_Queries():
 
 
 def Users_Queries():
+    global db
+    if db is None:
+        db = init_mongo()
+
     while True:
         print("\n--- QUERIES ---")
         print("1. Register new user")
@@ -152,10 +186,10 @@ def Users_Queries():
         choice = int(input("Enter your query choice: "))
         
         if choice == 1:
-            pass
+            mModel.register_user(db)
 
         elif choice == 2:
-            pass
+            mModel.users_by_zone_or_type(db)
 
         elif choice == 3:
             break
@@ -163,6 +197,10 @@ def Users_Queries():
             print("Invalid option.")
 
 def Metadata_Queries():
+    global db
+    if db is None:
+        db = init_mongo()
+
     while True:
         print("\n--- QUERIES ---")
         print("1. Consult metadata of IoT system")
@@ -173,12 +211,14 @@ def Metadata_Queries():
         choice = int(input("Enter your query choice: "))
         
         if choice == 1:
-            pass
+            mModel.view_metadata(db)
 
         elif choice == 2:
-            pass
+            mModel.global_text_search(db)
+
         elif choice == 3:
-            pass
+            mModel.system_report(db)
+
         elif choice == 4:
             break
         else:
@@ -209,6 +249,8 @@ def Infrastructure_Queries():
 
         
 def main():
+    global db
+    
     while(True):
             print_menu()
             option = int(input('Enter your choice: '))
@@ -219,6 +261,10 @@ def main():
                 populate.populate_readings(session, "devices.csv")
                 populate.populate_logs(session, "./Cassandra/logs.csv")
                 populate.populate_alerts(session, "./Cassandra/alerts.csv")
+                
+                db = init_mongo()
+                populate.load_mongo(db)
+                
                 print("Data loaded!")
 
             if option == 3:

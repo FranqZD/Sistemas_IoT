@@ -1,0 +1,6 @@
+user_id,name,email,role,assigned_devices,zones_managed,types_managed
+user-001,Valentina Montaño,valentina@iteso.mx,admin,"['dev-1','dev-2']","['Downtown']","['temperature','humidity']"
+user-002,Carlos Ruiz,carlos@iteso.mx,technician,"['dev-3']","['Uptown']","['motion']"
+user-003,Ana Pérez,ana@iteso.mx,viewer,"[]","['Industrial']","[]"
+user-004,Juan Torres,juan@iteso.mx,admin,"['dev-4','dev-10']","['Downtown']","['energy_meter']"
+user-005,Lucia León,lucia@iteso.mx,technician,"['dev-5','dev-6']","['Uptown']","['pressure','co2']"

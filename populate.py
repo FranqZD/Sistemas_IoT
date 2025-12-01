@@ -1,4 +1,5 @@
 import csv
+import ast
 from datetime import date
 from cassandra.query import BatchStatement
 
@@ -211,3 +212,89 @@ def populate_alerts(session, file_path):
     execute_batch(session, stmt_alerts_by_zone_time, by_zone_time_data)
     execute_batch(session, stmt_alerts_by_metric_value_time, by_metric_value_data)
 
+# Mongo section
+
+def load_mongo(db):
+    print("\n--- Loading MongoDB Data ---")
+
+    # Load devices
+    try:
+        with open("devices.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            devices = []
+            for row in reader:
+                devices.append({
+                    "device_id": row["device_id"],
+                    "device_alias": row["device_alias"],
+                    "type": row["type"],
+                    "model": row["model"],
+
+                    # Convert location correctly
+                    "location": {"zone": row["location"]},
+
+                    "status": row["status"],
+                    "time": row["time"],
+
+                    # tags stored as Python list
+                    "tags": ast.literal_eval(row["tags"]),
+
+                    # always lists (not strings)
+                    "settings_history": [],
+                    "admin_events": [],
+
+                    # geolocation optional
+                    "geolocation": row.get("geolocation", None)
+                })
+
+        if len(devices) > 0:
+            db.devices.insert_many(devices)
+        print(f"{len(devices)} devices added to Mongo.")
+
+    except Exception as e:
+        print("Error loading devices:", e)
+
+    # Load users
+    try:
+        with open("users.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            users = []
+            for row in reader:
+                users.append({
+                    "user_id": row["user_id"],
+                    "name": row["name"],
+                    "email": row["email"],
+                    "role": row["role"],
+                    "manages_zone": row["manages_zone"],
+                    "manages_type": row["manages_type"],
+                })
+
+        if len(users) > 0:
+            db.users.insert_many(users)
+        print(f"{len(users)} users added to Mongo.")
+
+    except Exception as e:
+        print("Error loading users:", e)
+
+    # Load Metadata
+    
+    try:
+        with open("metadata.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            metadata = []
+            for row in reader:
+                metadata.append({
+                    "manufacturer": row["manufacturer"],
+                    "supported_models": ast.literal_eval(row["supported_models"]),
+                    "categories": ast.literal_eval(row["categories"]),
+                    "country": row["country"],
+                    "website": row["website"]
+                })
+
+        db.metadata.insert_many(metadata)
+        print(f"{len(metadata)} metadata records added.")
+
+    except Exception as e:
+        print("Error loading metadata:", e)
+
+
+    print("\nMongo loading completed.")
