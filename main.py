@@ -1,6 +1,7 @@
 import connect
 from Cassandra import cModel
 import populate
+import populateD
 
 from connect import init_mongo
 from Mongo import mModel
@@ -9,6 +10,7 @@ from Dgraph import dModel
 # session = connect.init_cassandra()
 
 db = None
+clientD = connect.init_dgraph()
 
 def print_menu():
     mm_options = {
@@ -251,17 +253,17 @@ def Infrastructure_Queries():
         choice = int(input("Enter your query choice: "))
         
         if choice == 1:
-            dModel.get_places_by_cluster(connect.init_dgraph(), input("Cluster name: "))
+            dModel.get_places_by_cluster(clientD, input("Cluster name: "))
         elif choice == 2:
-            dModel.get_places_related_to_zone(connect.init_dgraph(), input("Zone name: "))
+            dModel.get_places_related_to_zone(clientD, input("Zone name: "))
         elif choice == 3:
-            dModel.get_clusters_by_status_in_zone(connect.init_dgraph(), input("Zone name: "), input("Status: "))
+            dModel.get_clusters_by_status_in_zone(clientD, input("Zone name: "), input("Status: "))
         elif choice == 4:
-            dModel.get_all_clusters_in_zone(connect.init_dgraph(), input("Zone name: "))
+            dModel.get_all_clusters_in_zone(clientD, input("Zone name: "))
         elif choice == 5:
-            dModel.get_places_by_type_in_cluster(connect.init_dgraph(), input("Cluster name: "), input("Place type: "))
+            dModel.get_places_by_type_in_cluster(clientD, input("Cluster name: "), input("Place type: "))
         elif choice == 6:
-            dModel.get_zones_with_brand_devices(connect.init_dgraph(), input("Brand name: "))
+            dModel.get_zones_with_brand_devices(clientD, input("Brand name: "))
         else:
             print("Invalid option.")
 
@@ -273,15 +275,19 @@ def main():
             print_menu()
             option = int(input('Enter your choice: '))
             if option == 1:
+                dModel.create_Schema(clientD)
                 pass
             if option == 2:
-                print("Loading data into Cassandra from CSVs...")
-                populate.populate_readings(session, "devices.csv")
-                populate.populate_logs(session, "./Cassandra/logs.csv")
-                populate.populate_alerts(session, "./Cassandra/alerts.csv")
+                # print("Loading data into Cassandra from CSVs...")
+                # populate.populate_readings(session, "devices.csv")
+                # populate.populate_logs(session, "./Cassandra/logs.csv")
+                # populate.populate_alerts(session, "./Cassandra/alerts.csv")
+                print("Loading data into Dgraph from CSVs...")
+                populateD.load_data(clientD)
                 
-                db = init_mongo()
-                populate.load_mongo(db)
+                # db = init_mongo()
+                # print("Loading data into MongoDB from CSVs...")
+                # populate.load_mongo(db)
                 
                 print("Data loaded!")
 

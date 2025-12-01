@@ -53,7 +53,6 @@ type Brand {
 }
     """
     client.alter(pydgraph.Operation(schema=schema))
-    print("Schema created.")
     txn = client.txn()
  
  
