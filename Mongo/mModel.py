@@ -153,9 +153,10 @@ def devices_by_category(db):
             }
         },
         {"$unwind": "$meta"},
+        {"$unwind": "$meta.categories"},
         {
             "$group": {
-                "_id": "$meta.category",
+                "_id": "$meta.categories",
                 "total_devices": {"$sum": 1}
             }
         },
@@ -164,6 +165,7 @@ def devices_by_category(db):
 
     for doc in db.devices.aggregate(pipeline):
         print(json.dumps(doc, indent=2))
+
 
 
 def active_inactive_summary(db):
