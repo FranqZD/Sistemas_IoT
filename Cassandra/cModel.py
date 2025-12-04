@@ -1,5 +1,6 @@
 import datetime
 import uuid
+import json
 
 # CREATES y SELECTS
 #Creación del keyspace
@@ -280,13 +281,18 @@ def get_readings_by_device(session, device_alias, start_date):
 
     print(f"\n=== Readings for device_alias: {device_alias} ===")
     for row in rows:
-        print(f"- Time: {row.time}")
-        print(f"  Type: {row.type}")
-        print(f"  Model: {row.model}")
-        print(f"  Location: {row.location}")
-        print(f"  Status: {row.status}")
-        print(f"  Device ID: {row.device_id}")
+        entry = {
+            "Time": str(row.time),
+            "Type": row.type,
+            "Model": row.model,
+            "Location": row.location,
+            "Status": row.status,
+            "Device ID": row.device_id
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q1.2 devices_by_type
 def get_devices_by_type(session, sensor_type):
@@ -295,13 +301,18 @@ def get_devices_by_type(session, sensor_type):
 
     print(f"\n=== Devices with type: {sensor_type} ===")
     for row in rows:
-        print(f"- Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Model: {row.model}")
-        print(f"  Location: {row.location}")
-        print(f"  Status: {row.status}")
-        print(f"  Time: {row.time}")
+        entry = {
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Model": row.model,
+            "Location": row.location,
+            "Status": row.status,
+            "Time": str(row.time)
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q1.3 devices_by_status_time
 def get_devices_by_status_time(session, status, start_date):
@@ -310,12 +321,17 @@ def get_devices_by_status_time(session, status, start_date):
 
     print(f"\n=== Devices with status: {status} ===")
     for row in rows:
-        print(f"- Time: {row.time}")
-        print(f"  Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Type: {row.type}")
-        print(f"  Location: {row.location}")
+        entry = {
+            "Time": str(row.time),
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Type": row.type,
+            "Location": row.location
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q2.1 logs_by_device_time
 def get_logs_by_device_time(session, device_alias, start_date):
@@ -324,10 +340,13 @@ def get_logs_by_device_time(session, device_alias, start_date):
 
     print(f"\n=== Logs for device_alias: {device_alias} ===")
     for row in rows:
-        print(f"- Time: {row.log_time}")
-        print(f"  Level: {row.level}")
-        print(f"  Service: {row.service_name}")
-        print(f"  Message: {row.message}")
+        entry = {
+            "Time": str(row.log_time),
+            "Level": row.level,
+            "Service": row.service_name,
+            "Message": row.message
+        }
+        print(json.dumps(entry, indent=2))
         print()
 
 # Q2.2 logs_by_level_time
@@ -337,11 +356,14 @@ def get_logs_by_level(session, level, start_date):
 
     print(f"\n=== Logs with level: {level} ===")
     for row in rows:
-        print(f"- Time: {row.log_time}")
-        print(f"  Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Service: {row.service_name}")
-        print(f"  Message: {row.message}")
+        entry = {
+            "Time": str(row.log_time),
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Service": row.service_name,
+            "Message": row.message
+        }
+        print(json.dumps(entry, indent=2))
         print()
 
 # Q2.3 logs_by_service_level_time
@@ -351,11 +373,16 @@ def get_logs_by_service_level(session, service_name, level, start_date):
 
     print(f"\n=== Logs for service '{service_name}' with level '{level}' ===")
     for row in rows:
-        print(f"- Time: {row.log_time}")
-        print(f"  Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Message: {row.message}")
+        entry = {
+            "Time": str(row.log_time),
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Message": row.message
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q2.4 logs_by_service_time
 def get_logs_by_service(session, service_name, start_date):
@@ -364,11 +391,15 @@ def get_logs_by_service(session, service_name, start_date):
 
     print(f"\n=== Logs for service: {service_name} ===")
     for row in rows:
-        print(f"- Time: {row.log_time}")
-        print(f"  Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Level: {row.level}")
-        print(f"  Message: {row.message}")
+        entry = {
+            "Time": str(row.log_time),
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Level": row.level,
+            "Message": row.message
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
 
 # Q2.5 logs_count_by_device_level_time
@@ -378,12 +409,17 @@ def get_logs_count_by_device_level(session, device_alias, level, start_date):
 
     print(f"\n=== Logs count by device: {device_alias} ===")
     for row in rows:
-        print(f"- time: {row.log_time}")
-        print(f"  Device ID: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Level: {row.level}")
-        print(f"  Count: {row.count}")
+        entry = {
+            "Time": str(row.log_time),
+            "Device ID": row.device_id,
+            "Alias": row.device_alias,
+            "Level": row.level,
+            "Count": row.count
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q3.1 alerts_by_device_time
 def get_alerts_by_device_time(session, device_alias, start_date):
@@ -392,12 +428,17 @@ def get_alerts_by_device_time(session, device_alias, start_date):
 
     print(f"\n=== Alerts for device_alias: {device_alias} ===")
     for row in rows:
-        print(f"- Time: {row.alert_time}")
-        print(f"  Metric: {row.metric_type}")
-        print(f"  Threshold: {row.threshold_exceeded}")
-        print(f"  Zone: {row.zone_alias}")
-        print(f"  Value: {row.value}")
+        entry = {
+            "Time": str(row.alert_time),
+            "Metric": row.metric_type,
+            "Threshold": row.threshold_exceeded,
+            "Zone": row.zone_alias,
+            "Value": row.value
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q3.2 alerts_by_metric_time
 def get_alerts_by_metric_time(session, metric_type, start_date):
@@ -406,12 +447,17 @@ def get_alerts_by_metric_time(session, metric_type, start_date):
 
     print(f"\n=== Alerts for metric_type: {metric_type} ===")
     for row in rows:
-        print(f"- Time: {row.alert_time}")
-        print(f"  Device: {row.device_id}")
-        print(f"  Alias: {row.device_alias}")
-        print(f"  Value: {row.value}")
-        print(f"  Threshold: {row.threshold_exceeded}")
+        entry = {
+            "Time": str(row.alert_time),
+            "Device": row.device_id,
+            "Alias": row.device_alias,
+            "Value": row.value,
+            "Threshold": row.threshold_exceeded
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q3.3 alerts_by_zone_time
 def get_alerts_by_zone_time(session, zone_alias, start_date):
@@ -420,11 +466,16 @@ def get_alerts_by_zone_time(session, zone_alias, start_date):
 
     print(f"\n=== Alerts for zone: {zone_alias} ===")
     for row in rows:
-        print(f"- Time: {row.alert_time}")
-        print(f"  Device: {row.device_id}")
-        print(f"  Metric: {row.metric_type}")
-        print(f"  Threshold: {row.threshold_exceeded}")
+        entry = {
+            "Time": str(row.alert_time),
+            "Device": row.device_id,
+            "Metric": row.metric_type,
+            "Threshold": row.threshold_exceeded
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+
 
 # Q3.4 alerts_by_metric_value_time
 def get_alerts_by_metric_value_time(session, metric_type, value, start_date):
@@ -433,8 +484,13 @@ def get_alerts_by_metric_value_time(session, metric_type, value, start_date):
 
     print(f"\n=== Alerts for metric '{metric_type}' with value '{value}' ===")
     for row in rows:
-        print(f"- Time: {row.alert_time}")
-        print(f"  Device: {row.device_id}")
-        print(f"  Zone: {row.zone_alias}")
-        print(f"  Threshold: {row.threshold_exceeded}")
+        entry = {
+            "Time": str(row.alert_time),
+            "Device": row.device_id,
+            "Zone": row.zone_alias,
+            "Threshold": row.threshold_exceeded
+        }
+
+        print(json.dumps(entry, indent=2))
         print()
+

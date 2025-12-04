@@ -1,3 +1,5 @@
+import json
+
 def create_mongo_indexes(db):
     print("Creating MongoDB indexes...")
 
@@ -45,7 +47,10 @@ def register_device(db):
 def get_general_device_info(db):
     dev = input("Device ID: ")
     d = db.devices.find_one({"device_id": dev}, {"_id": 0})
-    print(d or "Not found.")
+    if not d:
+        print("Not found.")
+        return
+    print(json.dumps(d, indent=2))
 
 def view_admin_events(db):
     dev = input("Device ID: ")
@@ -62,7 +67,10 @@ def add_configuration_version(db):
 def get_configurations(db):
     dev = input("Device ID: ")
     d = db.devices.find_one({"device_id": dev}, {"settings_history": 1, "_id": 0})
-    print(d)
+    if not d:
+        print("Not found.")
+        return
+    print(json.dumps(d, indent=2))
 
 def advanced_device_search(db):
     type_ = input("Type (blank = ignore): ")
@@ -78,7 +86,7 @@ def advanced_device_search(db):
         q["category"] = category  # from metadata
 
     for d in db.devices.find(q, {"_id": 0}):
-        print(d)
+        print(json.dumps(d, indent=2))
 
 def update_device_state(db):
     dev = input("Device ID: ")
@@ -118,19 +126,19 @@ def users_by_zone_or_type(db):
 # Metadata 
 def view_metadata(db):
     for m in db.metadata.find({}, {"_id": 0}):
-        print(m)
+        print(json.dumps(m, indent=2))
 
 def global_text_search(db):
     q = input("Search text: ")
     for d in db.devices.find({"$text": {"$search": q}}, {"_id": 0}):
-        print(d)
+        print(json.dumps(d, indent=2))
 
 def system_report(db):
     pipeline = [
         {"$group": {"_id": "$location", "count": {"$sum": 1}}}
     ]
     for row in db.devices.aggregate(pipeline):
-        print(row)
+        print(json.dumps(row, indent=2))
 
 def devices_by_category(db):
     print("\n--- Devices Count by Category ---")
@@ -155,7 +163,7 @@ def devices_by_category(db):
     ]
 
     for doc in db.devices.aggregate(pipeline):
-        print(doc)
+        print(json.dumps(doc, indent=2))
 
 
 def active_inactive_summary(db):
@@ -171,4 +179,4 @@ def active_inactive_summary(db):
     ]
 
     for doc in db.devices.aggregate(pipeline):
-        print(doc)
+        print(json.dumps(doc, indent=2))
