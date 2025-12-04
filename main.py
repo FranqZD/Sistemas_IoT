@@ -49,8 +49,9 @@ def Devices_Queries():
         print("12. List offline devices in a cluster")
         print("13. Show connections for a specific device")
         print("14. Count IoT devices in a cluster")
-        print("15. Filter IoT devices by brand and zone")
-        print("16. Back to Main Menu")
+        print("15. Get brand name by device name")
+        print("16. List devices by brand name")
+        print("17. Exit")
 
         choice = int(input("Enter your query choice: "))
         if choice == 1:
