@@ -102,8 +102,7 @@ def Devices_Queries():
         elif choice == 15:
             dModel.get_brand_by_device(connect.init_dgraph(), input("Device name: "))
         elif choice == 16:
-            dModel.get_devices_by_brand(connect.init_dgraph, input("Brand name:"))
-            break
+            dModel.get_devices_by_brand(connect.init_dgraph(), input("Brand name:"))
         elif choice == 17:
             break
 
@@ -262,7 +261,6 @@ def Infrastructure_Queries():
         print("3. Filter clusters in a zone by status")
         print("4. List all clusters in a zone")
         print("5. Show installations of a specific type in a cluster")
-        print("6. Find zones with devices of a specific brand")
         
         choice = int(input("Enter your query choice: "))
         
@@ -276,8 +274,6 @@ def Infrastructure_Queries():
             dModel.get_all_clusters_in_zone(clientD, input("Zone name: "))
         elif choice == 5:
             dModel.get_places_by_type_in_cluster(clientD, input("Cluster name: "), input("Place type: "))
-        elif choice == 6:
-            dModel.get_zones_with_brand_devices(clientD, input("Brand name: "))
         else:
             print("Invalid option.")
 

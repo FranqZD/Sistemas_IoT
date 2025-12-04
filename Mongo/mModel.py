@@ -121,7 +121,7 @@ def users_by_zone_or_type(db):
         q["manages_type"] = type_
 
     for u in db.users.find(q, {"_id": 0}):
-        print(u)
+        print(json.dumps(u, indent=2))
 
 # Metadata 
 def view_metadata(db):
