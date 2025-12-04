@@ -99,8 +99,11 @@ def Devices_Queries():
         elif choice == 14:
             dModel.count_devices_in_cluster(connect.init_dgraph(), input("Cluster name: "))
         elif choice == 15:
-            dModel.get_devices_by_brand_in_zone(connect.init_dgraph(), input("Zone name: "), input("Brand name: "))
+            dModel.get_brand_by_device(connect.init_dgraph(), input("Device name: "))
         elif choice == 16:
+            dModel.get_devices_by_brand(connect.init_dgraph, input("Brand name:"))
+            break
+        elif choice == 17:
             break
 
         else:

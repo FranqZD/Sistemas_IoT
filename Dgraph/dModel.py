@@ -166,12 +166,6 @@ def get_all_clusters_in_zone(client, zone_name):
     finally:
         txn.discard()
 
-# --- SECCIÓN: ZONES ---
-
-def get_zones_with_brand_devices(client, brand_name):
-   pass
-
-
 # --- SECCIÓN: DEVICES (Dispositivos) ---
 
 def get_place_of_device(client, device_name):
@@ -277,5 +271,45 @@ def count_devices_in_cluster(client, cluster_name):
     finally:
         txn.discard()
 
-def get_devices_by_brand_in_zone(client, zone_name, brand_name):
-  pass
+def get_brand_by_device(client, device_name):
+  query = f"""{{
+  devices(func: eq(name, "{device_name}")) {{
+    uid
+    name
+    type
+    status
+    Has_Brand {{
+      name
+    }}
+    }}
+  }}"""
+  txn = client.txn(read_only=True)
+  try:
+      res = txn.query(query)
+      data = json.loads(res.json)
+      print(f"\n--- Marca del dispositivo {device_name} ---")
+      print(json.dumps(data, indent=2))
+  finally:      
+    txn.discard()
+    
+def get_devices_by_brand(client, brand_name):
+    query = f"""{{
+      brand(func: eq(name, "{brand_name}")) {{
+        name
+        ConnectedDevices: ~Has_Brand {{
+          uid
+          name
+          type
+          status
+        }}
+      }}
+    }}"""
+
+    txn = client.txn(read_only=True)
+    try:
+        res = txn.query(query)
+        data = json.loads(res.json)
+        print(f"\n--- Dispositivos de la marca {brand_name} ---")
+        print(json.dumps(data, indent=2))
+    finally:
+        txn.discard()
