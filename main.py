@@ -274,6 +274,8 @@ def Infrastructure_Queries():
             dModel.get_all_clusters_in_zone(clientD, input("Zone name: "))
         elif choice == 5:
             dModel.get_places_by_type_in_cluster(clientD, input("Cluster name: "), input("Place type: "))
+        elif choice == 6:
+            break
         else:
             print("Invalid option.")
 

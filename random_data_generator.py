@@ -231,7 +231,7 @@ def generate_dgraph_csvs():
         brands)
 
     rel("Contains_cluster.csv", "zone", "cluster", zones, clusters)
-    rel("Contains_place.csv", "zone", "place", zones,
+    rel("Contains_place.csv", "cluster", "place", clusters,
         [f"Place-{i}" for i in range(1,20)])
 
     print("All Dgraph CSVs ✓")

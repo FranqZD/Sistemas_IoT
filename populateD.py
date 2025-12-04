@@ -11,7 +11,7 @@ def load_brands(file_path, client):
         with open(file_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                brand = row["brand"]
+                brand = row["name"]
                 nodes.append({
                     "uid": f"_:brand_{brand}",
                     "dgraph.type": "Brand",
@@ -36,7 +36,7 @@ def load_zones(file_path, client):
         with open(file_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                zone = row["zone"]
+                zone = row["name"]
                 nodes.append({
                     "uid": f"_:zone_{zone}",
                     "dgraph.type": "Zone",
@@ -61,7 +61,7 @@ def load_clusters(file_path, client):
         with open(file_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                c = row["cluster"]
+                c = row["name"]
                 nodes.append({
                     "uid": f"_:cluster_{c}",
                     "dgraph.type": "Cluster",
@@ -86,7 +86,7 @@ def load_places(file_path, client):
         with open(file_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                place = row["place"]
+                place = row["name"]
                 ptype = row["type"]
                 nodes.append({
                     "uid": f"_:place_{place}",
@@ -191,17 +191,17 @@ def contains_cluster(file_path, client, zone_uids, cluster_uids):
         txn.discard()
 
 
-def contains_place(file_path, client, zone_uids, place_uids):
+def contains_place(file_path, client, clusters_uids, place_uids):
     txn = client.txn()
     try:
         with open(file_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                z = row["zone"]
+                z = row["cluster"]
                 p = row["place"]
-                if z in zone_uids and p in place_uids:
+                if z in clusters_uids and p in place_uids:
                     txn.mutate(set_obj={
-                        "uid": zone_uids[z],
+                        "uid": clusters_uids[z],
                         "Contains_Place": [{"uid": place_uids[p]}]
                     })
         txn.commit()
@@ -239,7 +239,7 @@ def load_data(client):
 
     print("--- Loading relationships ---")
     contains_cluster("Dgraph/data/Contains_cluster.csv", client, zones, clusters)
-    contains_place("Dgraph/data/Contains_place.csv", client, zones, places)
+    contains_place("Dgraph/data/Contains_place.csv", client, clusters, places)
     contains_device("Dgraph/data/Contains_device.csv", client, places, devices)
     has_brand("Dgraph/data/Has_brand.csv", client, devices, brands)
     connected_with("Dgraph/data/Connected_with.csv", client, devices)
