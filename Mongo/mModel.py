@@ -70,9 +70,12 @@ def advanced_device_search(db):
     category = input("Category (blank = ignore): ")
 
     q = {}
-    if type_: q["type"] = type_
-    if zone: q["location"] = zone
-    if category: q["category"] = category  # from metadata
+    if type_:
+        q["type"] = type_
+    if zone:
+        q["location.zone"] = zone
+    if category:
+        q["category"] = category  # from metadata
 
     for d in db.devices.find(q, {"_id": 0}):
         print(d)
@@ -82,6 +85,8 @@ def update_device_state(db):
     new_state = input("New state (ON/OFF): ")
     db.devices.update_one({"device_id": dev}, {"$set": {"status": new_state}})
     print("✓ Updated.\n")
+    
+
 
 # Users
 
@@ -95,7 +100,7 @@ def register_user(db):
         "manages_type": input("Manages device type: "),
     }
     db.users.insert_one(user)
-    print("✓ User added.\n")
+    print("User added.\n")
 
 def users_by_zone_or_type(db):
     zone = input("Zone (blank = ignore): ")
@@ -126,3 +131,44 @@ def system_report(db):
     ]
     for row in db.devices.aggregate(pipeline):
         print(row)
+
+def devices_by_category(db):
+    print("\n--- Devices Count by Category ---")
+
+    pipeline = [
+        {
+            "$lookup": {
+                "from": "metadata",
+                "localField": "model",
+                "foreignField": "supported_models",
+                "as": "meta"
+            }
+        },
+        {"$unwind": "$meta"},
+        {
+            "$group": {
+                "_id": "$meta.category",
+                "total_devices": {"$sum": 1}
+            }
+        },
+        {"$sort": {"total_devices": -1}}
+    ]
+
+    for doc in db.devices.aggregate(pipeline):
+        print(doc)
+
+
+def active_inactive_summary(db):
+    print("\n--- Active vs Inactive Devices ---")
+
+    pipeline = [
+        {
+            "$group": {
+                "_id": "$status",
+                "count": {"$sum": 1}
+            }
+        }
+    ]
+
+    for doc in db.devices.aggregate(pipeline):
+        print(doc)

@@ -1,7 +1,4 @@
-name,type,status,location
-cluster1,residential,active,"{type: 'Point', coordinates: [-74.0060, 40.7128]}"
-cluster2,commercial,inactive,"{type: 'Point', coordinates: [-118.2437, 34.0522]}"
-cluster3,commercial,active,"{type: 'Point', coordinates: [-87.6298, 41.8781]}"
-cluster4,industrial,active,"{type: 'Point', coordinates: [-95.3698, 29.7604]}"
-cluster5,residential,inactive,"{type: 'Point', coordinates: [-104.9903, 39.7392]}"
-cluster6,industrial,active,"{type: 'Point', coordinates: [-115.1398, 36.1699]}"
+cluster
+ClusterA
+ClusterB
+ClusterC

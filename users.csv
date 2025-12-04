@@ -1,6 +1,21 @@
-user_id,name,email,role,assigned_devices,zones_managed,types_managed
-user-001,Valentina Montaño,valentina@iteso.mx,admin,"['dev-1','dev-2']","['Downtown']","['temperature','humidity']"
-user-002,Carlos Ruiz,carlos@iteso.mx,technician,"['dev-3']","['Uptown']","['motion']"
-user-003,Ana Pérez,ana@iteso.mx,viewer,"[]","['Industrial']","[]"
-user-004,Juan Torres,juan@iteso.mx,admin,"['dev-4','dev-10']","['Downtown']","['energy_meter']"
-user-005,Lucia León,lucia@iteso.mx,technician,"['dev-5','dev-6']","['Uptown']","['pressure','co2']"
+user_id,name,email,role,manages_zone,manages_type
+user-1,Miguel,miguel1@example.com,viewer,North,temperature
+user-2,Miguel,miguel2@example.com,viewer,North,humidity
+user-3,Carlos,carlos3@example.com,operator,East,temperature
+user-4,Valentina,valentina4@example.com,operator,North,co2
+user-5,Valentina,valentina5@example.com,admin,East,temperature
+user-6,Valentina,valentina6@example.com,viewer,North,co2
+user-7,Carlos,carlos7@example.com,admin,North,motion
+user-8,Andrea,andrea8@example.com,admin,West,humidity
+user-9,Miguel,miguel9@example.com,admin,South,temperature
+user-10,Valentina,valentina10@example.com,viewer,Central,humidity
+user-11,Sofia,sofia11@example.com,admin,South,motion
+user-12,Andrea,andrea12@example.com,admin,Central,motion
+user-13,Andrea,andrea13@example.com,admin,East,humidity
+user-14,Luis,luis14@example.com,admin,East,humidity
+user-15,Sofia,sofia15@example.com,operator,North,co2
+user-16,Miguel,miguel16@example.com,admin,Central,co2
+user-17,Andrea,andrea17@example.com,operator,West,co2
+user-18,Luis,luis18@example.com,operator,South,motion
+user-19,Luis,luis19@example.com,viewer,West,co2
+user-20,Carlos,carlos20@example.com,viewer,Central,co2

@@ -2,6 +2,7 @@ import connect
 from Cassandra import cModel
 import populate
 import populateD
+import random_data_generator
 
 from connect import init_mongo
 from Mongo import mModel
@@ -222,7 +223,9 @@ def Metadata_Queries():
         print("1. Consult metadata of IoT system")
         print("2. Global text search")
         print("3. Global IoT system reports")
-        print("4. Back to Main Menu")
+        print("4. Devices by category")
+        print("5. Active vs inactive summary")
+        print("6. Back to Main Menu")
         
         choice = int(input("Enter your query choice: "))
         
@@ -236,7 +239,14 @@ def Metadata_Queries():
             mModel.system_report(db)
 
         elif choice == 4:
+            mModel.devices_by_category(db)
+
+        elif choice == 5:
+            mModel.active_inactive_summary(db)
+
+        elif choice == 6:
             break
+
         else:
             print("Invalid option.")
 
@@ -278,18 +288,23 @@ def main():
                 dModel.create_Schema(clientD)
                 pass
             if option == 2:
+                print("\nGenerating random CSVs...")
+                random_data_generator.generate_all_csvs()
+
                 print("Loading data into Cassandra from CSVs...")
                 populate.populate_readings(session, "devices.csv")
                 populate.populate_logs(session, "./Cassandra/logs.csv")
                 populate.populate_alerts(session, "./Cassandra/alerts.csv")
+
                 print("Loading data into Dgraph from CSVs...")
                 populateD.load_data(clientD)
-                
-                db = init_mongo()
+
                 print("Loading data into MongoDB from CSVs...")
+                db = init_mongo()
                 populate.load_mongo(db)
-                
+
                 print("Data loaded!")
+
 
             if option == 3:
                 Devices_Queries()

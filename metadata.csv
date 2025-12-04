@@ -1,6 +1,6 @@
 manufacturer,supported_models,categories,country,website
-Sony,"['TX-200','TX-300']","['environment','security']","Japan","sony.com"
-Samsung,"['SM-100','SM-200']","['energy','environment']","South Korea","samsung.com"
-Bosch,"['B500','B900']","['motion','security']","Germany","bosch.com"
-Xiaomi,"['X100','X200']","['environment','co2']","China","xiaomi.com"
-Honeywell,"['H1','H2']","['temperature','smoke']","USA","honeywell.com"
+Sony,"['X100', 'TX-200']","['energy', 'smoke']",Country,sony.com
+Samsung,"['X100', 'TX-200']","['motion', 'environment']",Country,samsung.com
+Bosch,"['X100', 'H1']","['motion', 'temperature']",Country,bosch.com
+Xiaomi,"['TX-200', 'B500']","['motion', 'smoke']",Country,xiaomi.com
+Honeywell,"['X100', 'B500']","['temperature', 'environment']",Country,honeywell.com

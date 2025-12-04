@@ -1,4 +1,5 @@
-name,location,description
-downtown,{"type":"Point","coordinates":[-122.4194,37.7749]},"The suburbs"
-midtown,{"type":"Point","coordinates":[-73.935242,40.730610]},"The city center"
-hightown,{"type":"Point","coordinates":[-0.1276,51.5074]},"The uptown area"
+zone
+North
+South
+East
+West
