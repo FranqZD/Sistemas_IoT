@@ -6,7 +6,7 @@ name: string @index(exact) .
 description: string .
 type: string @index(hash) .
 status: string @index(hash) .
-location: geo @index(geo) .
+location: string .
 technical_contact: string .
 
 Contains_Cluster: [uid] @reverse .
