@@ -35,6 +35,7 @@ def Devices_Queries():
         
     while True:
         print("\n--- QUERIES ---")
+        print("0. Show available device IDs")
         print("1. Consult by device_alias and time range for devices")
         print("2. Consult by sensor type for devices")
         print("3. Consult by status and time range for devices")
@@ -54,6 +55,9 @@ def Devices_Queries():
         print("17. Exit")
 
         choice = int(input("Enter your query choice: "))
+        if choice == 0:
+            mModel.list_device_ids(db)
+            
         if choice == 1:
             alias = input("Device alias: ")
             start = input("Start date (YYYY-MM-DD): ")
@@ -105,9 +109,8 @@ def Devices_Queries():
             dModel.get_devices_by_brand(connect.init_dgraph(), input("Brand name:"))
         elif choice == 17:
             break
-
         else:
-            print("Invalid option.")
+            print("")
 
     
 def Logs_Queries():
@@ -199,11 +202,15 @@ def Users_Queries():
 
     while True:
         print("\n--- QUERIES ---")
+        print("0. Show avaiable user IDs")
         print("1. Register new user")
         print("2. Users who manage devices by zone or type")
         print("3. Back to Main Menu")
         
         choice = int(input("Enter your query choice: "))
+        
+        if choice == 0:
+            mModel.list_user_ids(db)
         
         if choice == 1:
             mModel.register_user(db)

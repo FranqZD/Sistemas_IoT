@@ -217,6 +217,11 @@ def populate_alerts(session, file_path):
 def load_mongo(db):
     print("\n--- Loading MongoDB Data ---")
 
+    db.devices.delete_many({})
+    db.users.delete_many({})
+    db.metadata.delete_many({})
+
+    
     # Load devices
     try:
         with open("devices.csv", newline="", encoding="utf-8") as f:
@@ -251,7 +256,9 @@ def load_mongo(db):
         print(f"{len(devices)} devices added to Mongo.")
 
     except Exception as e:
-        print("Error loading devices:", e)
+        if "E11000 duplicate key" not in str(e):
+            print("Unexpected error loading devices:", e)
+
 
     # Load users
     try:

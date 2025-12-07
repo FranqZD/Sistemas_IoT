@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 
 def create_mongo_indexes(db):
     print("Creating MongoDB indexes...")
@@ -28,6 +30,11 @@ def create_mongo_indexes(db):
 
 # Devices
 
+def list_device_ids(db):
+    print("\n--- Available Device IDs ---")
+    for d in db.devices.find({}, {"_id": 0, "device_id": 1}):
+        print(d["device_id"])
+        
 def register_device(db):
     print("\n--- Register New Device ---")
     data = {
@@ -42,7 +49,7 @@ def register_device(db):
         "admin_events": []
     }
     db.devices.insert_one(data)
-    print("✓ Device registered.\n")
+    print("Device registered.\n")
 
 def get_general_device_info(db):
     dev = input("Device ID: ")
@@ -88,16 +95,35 @@ def advanced_device_search(db):
     for d in db.devices.find(q, {"_id": 0}):
         print(json.dumps(d, indent=2))
 
+
 def update_device_state(db):
     dev = input("Device ID: ")
     new_state = input("New state (ON/OFF): ")
-    db.devices.update_one({"device_id": dev}, {"$set": {"status": new_state}})
-    print("✓ Updated.\n")
+
+    db.devices.update_one(
+        {"device_id": dev},
+        {
+            "$set": {"status": new_state},
+            "$push": {
+                "admin_events": {
+                    "action": "state_update",
+                    "new_value": new_state,
+                    "time": datetime.now().isoformat()
+                }
+            }
+        }
+    )
+    
+    print("Updated and event logged.\n")
     
 
 
 # Users
-
+def list_user_ids(db):
+    print("\n--- Available User IDs ---")
+    for u in db.users.find({}, {"_id": 0, "user_id": 1}):
+        print(u["user_id"])
+        
 def register_user(db):
     user = {
         "user_id": input("User ID: "),
