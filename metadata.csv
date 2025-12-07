@@ -1,6 +1,0 @@
-manufacturer,supported_models,categories,country,website
-Sony,"['B500', 'TX-200']","['smoke', 'energy']",Country,sony.com
-Samsung,"['X100', 'H1']","['smoke', 'motion']",Country,samsung.com
-Bosch,"['X100', 'TX-200']","['security', 'motion']",Country,bosch.com
-Xiaomi,"['TX-200', 'SM-100']","['motion', 'energy']",Country,xiaomi.com
-Honeywell,"['SM-100', 'B500']","['environment', 'security']",Country,honeywell.com

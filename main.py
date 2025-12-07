@@ -58,7 +58,7 @@ def Devices_Queries():
         if choice == 0:
             mModel.list_device_ids(db)
             
-        if choice == 1:
+        elif choice == 1:
             alias = input("Device alias: ")
             start = input("Start date (YYYY-MM-DD): ")
             cModel.get_readings_by_device(session, alias, start)
@@ -110,7 +110,7 @@ def Devices_Queries():
         elif choice == 17:
             break
         else:
-            print("")
+            print("Invalid option.")
 
     
 def Logs_Queries():
@@ -212,7 +212,7 @@ def Users_Queries():
         if choice == 0:
             mModel.list_user_ids(db)
         
-        if choice == 1:
+        elif choice == 1:
             mModel.register_user(db)
 
         elif choice == 2:
@@ -268,6 +268,7 @@ def Infrastructure_Queries():
         print("3. Filter clusters in a zone by status")
         print("4. List all clusters in a zone")
         print("5. Show installations of a specific type in a cluster")
+        print("6. Back to Main Menu")
         
         choice = int(input("Enter your query choice: "))
         

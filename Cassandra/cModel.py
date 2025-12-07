@@ -244,10 +244,8 @@ SELECT_ALERTS_BY_METRIC_VALUE_TIME = """
 # Función para crear keyspace
 def create_keyspace(session, keyspace, replication_factor):
     query = CREATE_KEYSPACE.format(keyspace, replication_factor)
-    print('Query:' + query)
     try:
         session.execute(query)
-        print("Keyspace creado correctamente.")
     except Exception as e:
         print("ERROR al crear keyspace:", e)
 

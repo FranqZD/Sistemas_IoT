@@ -12,10 +12,13 @@ def load_brands(file_path, client):
             reader = csv.DictReader(f)
             for row in reader:
                 brand = row["name"]
+                description = row["description"]
+                tech = row["technical_contact"]
                 nodes.append({
                     "uid": f"_:brand_{brand}",
-                    "dgraph.type": "Brand",
-                    "name": brand
+                    "name": brand,
+                    "description": description,
+                    "technical_contact": tech
                 })
         if nodes:
             res = txn.mutate(set_obj=nodes)
@@ -37,10 +40,13 @@ def load_zones(file_path, client):
             reader = csv.DictReader(f)
             for row in reader:
                 zone = row["name"]
+                location = row["location"]
+                description = row["description"]
                 nodes.append({
                     "uid": f"_:zone_{zone}",
-                    "dgraph.type": "Zone",
-                    "name": zone
+                    "name": zone,
+                    "location": location,
+                    "description": description
                 })
         if nodes:
             res = txn.mutate(set_obj=nodes)
@@ -62,10 +68,15 @@ def load_clusters(file_path, client):
             reader = csv.DictReader(f)
             for row in reader:
                 c = row["name"]
+                t = row["type"]
+                s = row["status"]
+                l = row["location"]
                 nodes.append({
                     "uid": f"_:cluster_{c}",
-                    "dgraph.type": "Cluster",
-                    "name": c
+                    "name": c,
+                    "type": t,
+                    "status": s,
+                    "location": l
                 })
         if nodes:
             res = txn.mutate(set_obj=nodes)
@@ -88,11 +99,12 @@ def load_places(file_path, client):
             for row in reader:
                 place = row["name"]
                 ptype = row["type"]
+                l = row["location"]
                 nodes.append({
                     "uid": f"_:place_{place}",
-                    "dgraph.type": "Place",
                     "name": place,
-                    "type": ptype
+                    "type": ptype,
+                    "location": l
                 })
         if nodes:
             res = txn.mutate(set_obj=nodes)
@@ -119,7 +131,6 @@ def load_devices(file_path, client):
 
                 nodes.append({
                     "uid": f"_:dev_{alias}",
-                    "dgraph.type": "IoTDevice",
                     "name": alias,
                     "type": dtype,
                     "status": status
